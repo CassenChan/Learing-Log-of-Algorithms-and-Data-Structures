@@ -1,0 +1,74 @@
+class Node(object):
+    def __init__(self, item):
+        self.elem = item
+        self.next = None
+        self.prev = None
+
+class DoubleLinkList(object):
+    def __init__(self, node=None):
+        self._head = node
+
+    def travel(self):
+        ptr = self._head
+        while(ptr!=None):
+            print(ptr.elem)
+            ptr = ptr.next
+
+    def append(self, item):
+        node = Node(item)
+        if self._head == None:
+            self._head = node
+        else:
+            ptr = self._head
+            while (ptr.next != None):
+                ptr = ptr.next
+            ptr.next = node
+            node.prev = ptr
+
+    def add(self, item):
+        node = Node(item)
+        if self._head == None:
+            self._head = node
+        else:
+            node.next = self._head
+            self._head.prev = node
+            self._head = node
+
+    def delete(self, item):
+        if self._head.elem == item:
+            self._head.next.prev = None
+            self._head = self._head.next
+        else:
+            ptr = self._head
+            while(ptr.next != None):
+                if not ptr.elem == item:
+                    ptr = ptr.next
+                else:
+                    ptr.next.prev = ptr.prev
+                    ptr.prev.next = ptr.next
+                    break
+            if ptr.next == None:
+                ptr.prev.next = None
+
+    def insert(self, pos, item):
+        if pos==0:
+            self.add(item)
+        else:
+            node = Node(item)
+            ptr = self._head
+            for i in range(pos-1):
+                ptr = ptr.next
+            node.next = ptr
+            node.prev = ptr.prev
+            ptr.prev.next = node
+            ptr.prev = node
+if __name__=="__main__":
+    dl = DoubleLinkList()
+    dl.append(1)
+    dl.append(2)
+    dl.append(3)
+    dl.append(4)
+    dl.append(5)
+    dl.add(0)
+    dl.insert(0, 10)
+    dl.travel()
