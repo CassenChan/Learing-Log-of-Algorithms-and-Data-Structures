@@ -1,0 +1,91 @@
+class Node(object):
+    def __init__(self, item):
+        self.elem = item
+        self.next = None
+
+class SingleLinkList(object):
+    def __init__(self,node=None):
+        self._head = node
+
+    def travel(self):
+        ptr = self._head
+        while(ptr!=None):
+            print(ptr.elem)
+            ptr = ptr.next
+
+    def move(self, step):
+        ptr = self._head
+        for i in range(step):
+            ptr = ptr.next
+        return ptr.elem
+
+    def append(self, item):
+        node = Node(item)
+        if self._head == None:
+            self._head = node
+        else:
+            ptr = self._head
+            while (ptr.next != None):
+                ptr = ptr.next
+            ptr.next = node
+
+    def length(self):
+        if self._head == None:
+            return 0
+        else:
+            ptr = self._head
+            i = 0
+            while (ptr != None):
+                ptr = ptr.next
+                i += 1
+        return i
+
+def merge(sl1, sl2, res):
+    len1 = sl1.length()
+    len2 = sl2.length()
+    i1 = 0
+    i2 = 0
+    while(1):
+        if sl1.move(i1)<=sl2.move(i2):
+            res.append(sl1.move(i1))
+            i1 += 1
+        else:
+            res.append(sl2.move(i2))
+            i2 += 1
+        if i1==len1 and i2!=len2:
+            while(1):
+                res.append(sl2.move(i2))
+                i2 += 1
+                if i2==len2-1:
+                    return
+        elif i1!=len1 and i2==len2:
+            while(1):
+                res.append(sl1.move(i1))
+                i1 += 1
+                if i1==len1-1:
+                    return
+        elif i1 == len1 and i2 == len2:
+            return
+
+if __name__=="__main__":
+    sl1 = SingleLinkList()
+    sl1.append(1)
+    sl1.append(3)
+    sl1.append(5)
+    sl1.append(7)
+    sl1.append(9)
+    sl1.append(10)
+    sl1.append(11)
+    sl1.append(12)
+    sl1.append(13)
+
+    sl2 = SingleLinkList()
+    sl2.append(2)
+    sl2.append(4)
+    sl2.append(6)
+    sl2.append(8)
+
+    res = SingleLinkList()
+    merge(sl1, sl2, res)
+    res.travel()
+
