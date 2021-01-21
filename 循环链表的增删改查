@@ -1,0 +1,91 @@
+class Node(object):
+    def __init__(self, item):
+        self.elem = item
+        self.next = None
+
+class CycleLinkList(object):
+    def __init__(self, node=None):
+        self._head = node
+
+    def travel(self):
+        if self._head==None:
+            return
+        ptr = self._head
+        while(ptr.next!=self._head):
+            print(ptr.elem)
+            ptr = ptr.next
+        if ptr.next==self._head:
+            print(ptr.elem)
+
+    def add(self, item):
+        node = Node(item)
+        if self._head == None:
+            self._head = node
+            node.next = self._head
+        else:
+            ptr = self._head
+            while (ptr.next != self._head):
+                ptr = ptr.next
+            node.next = self._head
+            ptr.next = node
+            self._head = node
+
+    def append(self, item):
+        node = Node(item)
+        if self._head == None:
+            self._head = node
+            node.next = self._head
+        else:
+            ptr = self._head
+            while (ptr.next != self._head):
+                ptr = ptr.next
+            ptr.next = node
+            node.next = self._head
+
+    def delete(self, item):
+        if self._head.next == self._head:
+            self._head = None
+        else:
+            if self._head.elem == item:
+                ptr = self._head
+                while (ptr.next != self._head):
+                    ptr = ptr.next
+                ptr.next = self._head.next
+                self._head = ptr.next
+            else:
+                ptr = self._head
+                prev = ptr
+                ptr = ptr.next
+                while (ptr != self._head):
+                    if not ptr.elem == item:
+                        prev = ptr
+                        ptr = ptr.next
+                    else:
+                        prev.next = ptr.next
+                        break
+
+    def insert(self, pos, item):
+        if pos==0:
+            self.add(item)
+        else:
+            node = Node(item)
+            ptr = self._head
+            for i in range(pos):
+                pre = ptr
+                ptr = ptr.next
+            if ptr != self._head:
+                node.next = ptr
+                pre.next = node
+            else:
+                self.append(item)
+                
+if __name__=="__main__":
+    cl = CycleLinkList()
+    cl.append(1)
+    cl.append(2)
+    cl.append(3)
+    cl.append(4)
+    cl.append(5)
+    cl.append(6)
+    cl.insert(6, 10)
+    cl.travel()   
