@@ -86,11 +86,44 @@ class BinarySearchTree(object):
                         success.rchild = None
                     break
 
+    def presearch(self, node):
+        if node==None:
+            return
+        print(node.elem, end=' ')
+        self.presearch(node.lchild)
+        self.presearch(node.rchild)
+
+    def insearch(self, node):
+        if node==None:
+            return
+        self.insearch(node.lchild)
+        print(node.elem, end=' ')
+        self.insearch(node.rchild)
+
+    def postsearch(self, node):
+        if node==None:
+            return
+        self.postsearch(node.lchild)
+        self.postsearch(node.rchild)
+        print(node.elem, end=' ')
+
+    def breadth_travel(self, root):
+        if root == None:
+            return
+        queue = []
+        queue.append(root)
+        while queue:
+            node = queue.pop(0)
+            print(node.elem, end=' ')
+            if node.lchild != None:
+                queue.append(node.lchild)
+            if node.rchild != None:
+                queue.append(node.rchild)
+
 
 if __name__=="__main__":
     tree = BinarySearchTree()
     tree.insert(33)
-    tree.insert(50)
     tree.insert(16)
     tree.insert(13)
     tree.insert(18)
@@ -98,7 +131,18 @@ if __name__=="__main__":
     tree.insert(25)
     tree.insert(19)
     tree.insert(27)
+    tree.insert(50)
+    tree.insert(51)
     tree.delete(18)
 
-    res = tree.find(18)
-    print(res.elem)
+    # res = tree.find(18)
+    # print(res.elem)
+    tree.presearch(tree.root)
+    print('+++')
+    tree.insearch(tree.root)
+    print('+++')
+    tree.postsearch(tree.root)
+    print('+++')
+    tree.breadth_travel(tree.root)
+    print('+++')
+
