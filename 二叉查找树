@@ -1,0 +1,104 @@
+class Node(object):
+    def __init__(self, item):
+        self.elem = item
+        self.lchild = None
+        self.rchild = None
+
+class BinarySearchTree(object):
+    def __init__(self, node=None):
+        self.root = node
+
+    def insert(self, item):
+        node = Node(item)
+
+        if self.root==None:
+            self.root = node
+        else:
+            ptr = self.root
+            while(1):
+                if item>ptr.elem:
+                    if ptr.rchild==None:
+                        ptr.rchild = node
+                        break
+                    else:
+                        ptr = ptr.rchild
+                else:
+                    if ptr.lchild == None:
+                        ptr.lchild = node
+                        break
+                    else:
+                        ptr = ptr.lchild
+
+    def find(self, item):
+        if self.root==None:
+            return
+        ptr = self.root
+        while(ptr):
+            if item<ptr.elem:
+                ptr = ptr.lchild
+            elif item>ptr.elem:
+                ptr = ptr.rchild
+            else:
+                return ptr
+
+    def delete(self, item):
+        if self.root==None:
+            return
+        ptr = self.root
+        while(1):
+            if item<ptr.elem:
+                pre = ptr
+                ptr = ptr.lchild
+            elif item>ptr.elem:
+                pre = ptr
+                ptr = ptr.rchild
+            else:
+                if ptr.rchild==None and ptr.lchild==None:
+                    if pre.lchild == ptr:
+                        pre.lchild = None
+                    elif pre.rchild == ptr:
+                        pre.rchild = None
+                    break
+                elif ptr.rchild==None and ptr.lchild!=None:
+                    if pre.lchild == ptr:
+                        pre.lchild = ptr.lchild
+                    elif pre.rchild == ptr:
+                        pre.rchild = ptr.lchild
+                    break
+                elif ptr.rchild!=None and ptr.lchild==None:
+                    if pre.lchild == ptr:
+                        pre.lchild = ptr.rchild
+                    elif pre.rchild == ptr:
+                        pre.rchild = ptr.rchild
+                    break
+                else:
+                    prob = ptr.rchild
+                    while(1):
+                        if prob.lchild!=None:
+                            success = prob
+                            prob = prob.lchild
+                        elif prob.lchild==None:
+                            break
+                    ptr.elem = prob.elem
+                    if success.lchild == prob:
+                        success.lchild = None
+                    elif success.rchild == prob:
+                        success.rchild = None
+                    break
+
+
+if __name__=="__main__":
+    tree = BinarySearchTree()
+    tree.insert(33)
+    tree.insert(50)
+    tree.insert(16)
+    tree.insert(13)
+    tree.insert(18)
+    tree.insert(17)
+    tree.insert(25)
+    tree.insert(19)
+    tree.insert(27)
+    tree.delete(18)
+
+    res = tree.find(18)
+    print(res.elem)
