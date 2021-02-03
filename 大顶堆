@@ -6,6 +6,8 @@ class Heap(object):
         self.sort_res = []
 
     def insert(self, item):
+        if self.cur>=self.capcity:
+            return
         self.maxheap[self.cur] = item
 
         prob = self.cur
