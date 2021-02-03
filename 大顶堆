@@ -1,0 +1,66 @@
+class Heap(object):
+    def __init__(self):
+        self.capcity = 15
+        self.maxheap = [0]*self.capcity
+        self.cur = 0
+        self.sort_res = []
+
+    def insert(self, item):
+        self.maxheap[self.cur] = item
+
+        prob = self.cur
+        while(prob!=0):
+            if self.maxheap[(prob-1)//2]<self.maxheap[prob]:
+                self.maxheap[(prob - 1) // 2], self.maxheap[prob] = self.maxheap[prob], self.maxheap[(prob-1)//2]
+                prob = (prob - 1) // 2
+            else:
+                break
+        self.cur += 1
+
+    def delete(self):
+        return_val = self.maxheap[0]
+        self.maxheap[0] = self.maxheap[self.cur-1]
+        del self.maxheap[self.cur-1]
+        self.cur -= 1
+
+        ptr = 0
+        while(2*ptr+1<self.cur):
+            if (self.maxheap[ptr]<self.maxheap[2*ptr+1]) or (self.maxheap[ptr]<self.maxheap[2*ptr+2]):
+                if self.maxheap[2*ptr+1]>self.maxheap[2*ptr+2]:
+                    self.maxheap[ptr], self.maxheap[2 * ptr + 1] = self.maxheap[2*ptr+1], self.maxheap[ptr]
+                    ptr = 2*ptr+1
+                else:
+                    self.maxheap[ptr], self.maxheap[2 * ptr + 2] = self.maxheap[2 * ptr + 2], self.maxheap[ptr]
+                    ptr = 2 * ptr + 2
+            else:
+                break
+        return return_val
+
+    def sort(self):
+        while(self.cur!=0):
+            top_num = self.delete()
+            self.sort_res.append(top_num)
+        return self.sort_res
+
+
+
+
+if __name__ == "__main__":
+    hp = Heap()
+    hp.insert(33)
+    hp.insert(27)
+    hp.insert(2)
+    hp.insert(7)
+    hp.insert(8)
+    hp.insert(1)
+    hp.insert(5)
+    hp.insert(6)
+    hp.insert(19)
+    hp.insert(15)
+    hp.insert(13)
+    hp.insert(16)
+    hp.insert(21)
+    hp.insert(12)
+
+    res = hp.sort()
+    print(res)
